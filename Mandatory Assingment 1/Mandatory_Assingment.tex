@@ -137,7 +137,7 @@ Where WLOG $y > x$. Now notice that if $x \rightarrow \infty$ then $f'(x) \right
 |f(\xi) - f(r)| &\leq |f'(z)| |\xi - r| \\[5pt]
 &= L  |\xi - r|.
 \end{align*}
-which shows that $arctan(x)$ is a contraction for a sufficient $r$ which we can set as an upper boundary for $x_0$. \spaze 
+which shows that $\arctan(x)$ is a contraction for a sufficient $r$ which we can set as an upper boundary for $x_0$. \spaze 
 \underline{\textbf{Order of convergence}}\spaze 
 When showing the order of convergence we start off by denoting $h(x) = x_n - \frac{f(x_n}{f'(x_n)}$. This gives us the functional iteration 
 \begin{align*}
@@ -175,7 +175,7 @@ b.) \emph{Show that}
 g(x) :=
     \begin{cases}
         f(x) / x f'(x) & \text{if } x \neq 0 \\
-        1 & \text{if} x = 0
+        1 & \text{if} \ x = 0
     \end{cases}
 \end{align*}
 \emph{is a continuous and symmetric function (meaning that $g(x) = g(-x)$), and that Newton's method (for this particular problem) can be written as} 
@@ -217,7 +217,7 @@ meaning $g(x)$ is strictly increasing on $(0, \infty)$. Since $g(x)$ is strictly
 \begin{align*}
 g(x_1) < g(x_2) < \cdots < g(x_n), \quad \text{for} \ x_1 < x_2 < \cdots < x_n \in (0, \infty)
 \end{align*}
-but we defined $g(x_1) = g(x_2)$ for two arbitrary values, meaning we arrive at a contradiction and there must then exist a unique point $x^{*}$ such that $g(x^{*}) =2$. Thus, must all points $x_1, x_2, \ldots, x_n \in (x^{*}, \infty)$ yield $g(x_k) > 2,$ for $k \in{N}$. $\Q$ \spaze 
+but we defined $g(x_1) = g(x_2)$ for two arbitrary values, meaning we arrive at a contradiction and there must then exist a unique point $x^{*}$ such that $g(x^{*}) =2$. Thus, must all points $x_1, x_2, \ldots, x_n \in (x^{*}, \infty)$ yield $g(x_k) > 2,$ for $k \in \mathbb{N}$. $\Q$ \spaze 
 d.) \emph{Approximate the value of $x^{*}$ numerically to 5 correct decimal digits using an iteration method.} \spaze 
 \textbf{Solution:} \spaze 
 We can approximate $x^{*}$ by the following script 
@@ -263,7 +263,7 @@ Now let $x^{*}$ be a unique positive integer (like in (c)) satisfying $\varphi(x
 If $|x_0| = |x^{*}|$ then $\left\{ x_n \right\} = \bl x_0, -x_0, x_0, \ldots, \br$ which would neither converge nor diverge. \vspace{3mm}\\
 In the last case suppose now that $0 < |x^{*}| < |x|$, which would imply $\varphi(x) \geq |x|$, meaning $x_n$ is now non-decreasing. Nor is $x_n$ is bounded (neither from below or above) which then implies that $|x_n| \rightarrow \infty$. \vspace{3mm}\\
 Hence to conclude must $x_0 \in (-x^{*}, x^{*})$ for $|x_n| \rightarrow \xi$. $\Q$ \spaze 
-e.) \emph{Compute the sequence $(x_k)_{k=0}^{6}$ with Newton’s method}
+f.) \emph{Compute the sequence $(x_k)_{k=0}^{6}$ with Newton’s method}
 \begin{align*}
 x_{k+1} = x_k - \frac{f(x)}{f'(x)}
 \end{align*}
@@ -418,5 +418,17 @@ Given that $A$ has an $LU$ factorisation we can write the determinant of $A$ as
 \begin{align*}
 \text{det}(A) = \text{det}(P)\text{det}(L) \text{det}(U)  
 \end{align*}
-where $L$ is a unit lower triangular matrix, $U$ is an upper triangular matrix and $P$ is a permutation matrix. The cost of the product $\text{det}(L) \text{det}(U) = u_{1,1} \cdot u_{2,2} \cdots u_{n,n}$ is only $\mathcal{O}(n)$ since it is the product of the main diagonal of $U$, and by 
+where $L$ is a unit lower triangular matrix, $U$ an upper triangular matrix and $P$ a permutation matrix. The cost of the product $\text{det}(L) \text{det}(U) = u_{1,1} \cdot u_{2,2} \cdots u_{n,n}$ is only $\mathcal{O}(n)$ since it is the product of the main diagonal of $U$, and by definition we had that the cost of $\text{det}(P)$ is $\mathcal{O}(n^2)$. Hence will the product yield a total of $\mathcal{O}(n^3)$ calculations, which if we take the $LU$ factorization into account gives a totat cost of
+\begin{align*}
+\mathcal{C}_{T} &= \mathcal{C}(LU) + \mathcal{C} (\text{det}(P)\text{det}(L) \text{det}(U) ) \\[5pt]
+&= \frac{2n^3}{3} +\mathcal{O}(n^2) + \mathcal{O}(n^2) \mathcal{O}(n) \\[5pt]
+&=  \frac{2n^3}{3} + \mathcal{O}(n^2) +  \mathcal{O}(n^3) \\[5pt]
+&=  \frac{2n^3}{3} +  \mathcal{O}(n^3 + n^2) \\[5pt]
+&=  \frac{2n^3}{3}+  \mathcal{O}(n^3).
+\end{align*}\footnote{I have decided to write $\mathcal{O}(n^3)$ and not $\mathcal{O}(n^3 + n^2)$ since $\mathcal{O}(n^3)$ dominates $\mathcal{O}(n^2)$}
+The cost of determining the determinant of A through $PLU$ decomposition is thus of cubic time complexity and 
+\begin{align*}
+ \frac{2n^3}{3}+  \mathcal{O}(n^3) << e^1 n! + \mathcal{O}((n-1)!)
+\end{align*}
+which shows that the method is a lot more efficient. $\Q$
 \end{document}
