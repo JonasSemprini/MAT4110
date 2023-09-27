@@ -1,0 +1,422 @@
+\documentclass[12pt,
+               a4paper,
+               article,
+               oneside,
+               norsk,oldfontcommands]{memoir}
+\usepackage{student}
+% Metadata
+\date{\today}
+\setmodule{MAT4110: Introduction to Numerical Analysis}
+\setterm{Fall, 2023}
+
+%-------------------------------%
+% Other details
+% TODO: Fill these
+%-------------------------------%
+\title{Mandatory assingment: 1}
+\setmembername{Jonas Semprini Næss}  % Fill group member names
+
+%-------------------------------%
+% Add / Delete commands and packages
+% TODO: Add / Delete here as you need
+%-------------------------------%
+\makeatletter
+\newcommand*{\rom}[1]{\expandafter\@slowromancap\romannumeral #1@}
+\makeatother
+%\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[T1]{fontenc}
+\usepackage{titling}% the wheel somebody else kindly made for us earlier
+\usepackage{fancyhdr}
+\usepackage{fancybox}
+\usepackage{epigraph} 
+\usepackage{tikz}
+\usepackage{bm}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.12}
+\usepackage{lmodern}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{fancyvrb}
+\usepackage[scaled]{beramono}
+\usepackage[final]{microtype}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{thmtools}
+\usepackage{babel}
+\usepackage{csquotes}
+\usepackage{listings}
+\usetikzlibrary{calc,intersections,through,backgrounds}
+\usepackage{tkz-euclide} 
+\lstset{basicstyle = \ttfamily}
+\usepackage{float}
+\usepackage{textcomp}
+\usepackage{siunitx}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage[colorlinks, allcolors = uiolink]{hyperref}
+\usepackage[noabbrev]{cleveref}
+\pretolerance = 2000
+\tolerance    = 6000
+\hbadness     = 6000
+\newcounter{probnum}[section]
+\newcounter{subprobnum}[probnum] 
+\usepackage{dirtytalk}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage[section]{placeins}
+\usepackage{varwidth}
+\usepackage{optidef}
+\definecolor{uiolink}{HTML}{0B5A9D}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{frame=tb,
+  language=python,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=fullflexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3} 
+\usepackage{commath}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newcommand{\Q}{ \qquad \hfill \blacksquare}
+\newcommand\myeq{\stackrel{\mathclap{\normalfont{uif}}}{\sim}}
+\let\oldref\ref
+\renewcommand{\ref}[1]{(\oldref{#1})}
+\newtheorem{lemma}[theorem]{Lemma}
+\setlength \epigraphwidth {\linewidth}
+\setlength \epigraphrule {0pt}
+\AtBeginDocument{\renewcommand {\epigraphflush}{center}}
+\renewcommand {\sourceflush} {center}
+\parindent 0ex
+\renewcommand{\thesection}{\roman{section}} 
+\renewcommand{\thesubsection}{\thesection.\roman{subsection}}
+\newcommand{\KL}{\mathrm{KL}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\T}{\top}
+\newcommand{\bl}{\left\{}
+\newcommand{\br}{\right\}}
+\newcommand{\spaze}{\vspace{4mm}\\}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Rel}{\mathbb{R}}
+\newcommand{\expdist}[2]{%
+        \normalfont{\textsc{Exp}}(#1, #2)%
+    }
+\newcommand{\expparam}{\bm \lambda}
+\newcommand{\Expparam}{\bm \Lambda}
+\newcommand{\natparam}{\bm \eta}
+\newcommand{\Natparam}{\bm H}
+\newcommand{\sufstat}{\bm u}
+
+% Main document
+\begin{document}
+\header{}
+\section*{\centering Problem 1.}
+a.) \emph{Let $(x_k)$ be a sequence obtained by Newton’s method for solving the above equation. Explain why $\lim_{k \to \infty} x_k = \xi$ if $x_0$ is sufficiently near $\xi$ and show that the sequence converges with at least order $q = 3.$} \spaze 
+\textbf{Solution:} \spaze 
+To see that $(x_k)$ indeed will converge for a sufficient $x_0$ we need to analyse how $\arctan(x)$ behaves in regards to contractivity. Indeed, $f'(x) = \frac{1}{1+x^2} \leq 1, \quad \forall x \in \R$ and $| \arctan(x) | \leq |x|$ which by the Mean Value Theorem tells us that 
+\begin{align*}
+|f(x) - f(y)| \leq |f'(z)| |x - y|, \qquad \text{for} \  z \in (x, y).
+\end{align*}
+Where WLOG $y > x$. Now notice that if $x \rightarrow \infty$ then $f'(x) \rightarrow 0$, implying that $\arctan(x)$ would violate the contraction criteria given large enough $x$. It is also easy seeing that since $f'(x)$ is rapidly decreasing on $\mathbb{R}$, namely $0< f'(x) < |\frac{1}{x}|$, then as $x \rightarrow 0 \Rightarrow f'(x) \rightarrow 1$. Thus if $x \in (0, r)$ where $r << \infty$ then $|f'(x) < 1|$. Now let $z \in (\xi, r)$, and denote $f'(z) = L$, meaning $ 0 < L < 1$, then  
+\begin{align*}
+|f(\xi) - f(r)| &\leq |f'(z)| |\xi - r| \\[5pt]
+&= L  |\xi - r|.
+\end{align*}
+which shows that $arctan(x)$ is a contraction for a sufficient $r$ which we can set as an upper boundary for $x_0$. \spaze 
+\underline{\textbf{Order of convergence}}\spaze 
+When showing the order of convergence we start off by denoting $h(x) = x_n - \frac{f(x_n}{f'(x_n)}$. This gives us the functional iteration 
+\begin{align*}
+x_{n+1} = h(x_n)
+\end{align*}
+which if $x_0$ is sufficiently close to $\xi$ will converge to $\xi$ (i.e part (1) of this exercise). To express the order of convergence we firstly look at the difference 
+\begin{align*}
+x_{n+1} - \xi = h(x_n) - h(\xi)
+\end{align*}
+which if we Taylor expand $h(x)$ about the point $x_n$ we get that 
+\begin{align*}
+x_{n+1} - \xi = h(x_n) - h(\xi) = \frac{1}{q!} h^{(q)} (\eta_{n})(x_n - \xi)^q, \quad q \in \mathbb{N}
+\end{align*}
+where by the Squeeze Theorem will ensure that when $x_n \rightarrow \eta \Rightarrow \eta_{n} \rightarrow \xi$. Moreover, by continuity we then have that 
+\begin{align*}
+\frac{|x_{n+1} - \xi|}{|x_n - \xi|^q} = \frac{1}{q!} |h^{(q)}(\xi)|.
+\end{align*}
+Now since $r = h(r)$ only if $f(r) = 0$ we always have that $h'(r) = 0$ since 
+\begin{align*}
+h'(x) = \frac{f(x) f''(x)}{f'(x)^2}.
+\end{align*}
+Thus, for the order of convergence to be at least $k$ the expression 
+\begin{align*}
+\frac{1}{q!} |h^{(q)} (\xi)| \neq 0
+\end{align*}
+for at least $q$. Now if we use (1.24) from (S.M) we have that 
+\begin{align*}
+\frac{|x_{n+1} - \xi|}{|x_n - \xi|^q} &= \frac{1}{2} \left| \frac{f''(\xi)}{f'(\xi)} \right| = 0 \\[5pt]
+&\Downarrow \\[5pt]
+h''(r) &= 0
+\end{align*}
+which means the order of convergence is at least cubic.\footnote{In this specific problem it is actually exactly of order 3} $\Q$ \spaze 
+b.) \emph{Show that}
+\begin{align*}
+g(x) :=
+    \begin{cases}
+        f(x) / x f'(x) & \text{if } x \neq 0 \\
+        1 & \text{if} x = 0
+    \end{cases}
+\end{align*}
+\emph{is a continuous and symmetric function (meaning that $g(x) = g(-x)$), and that Newton's method (for this particular problem) can be written as} 
+\begin{align*}
+x_{k+1} = x_k(1 - g(x_k))
+\end{align*}
+\textbf{Solution:} \spaze 
+\underline{\textbf{Continuity}}\spaze 
+Since we are dealing with a piecewise function we check that the limits as $x \rightarrow 0$ coincide. 
+\begin{align}
+&\lim_{x \to 0} \frac{f(x)}{x f'(x)} &= \lim_{x \to 0} \frac{\arctan(x)(1 + x^2)}{x} \overbrace{=}^{L'H} \frac{1 - \arctan(x)(\frac{2x}{(1+x^2)^2}}{1} = 1 \\[5pt]
+&\lim_{x \to 0} 1 = 1
+\end{align}
+Meaning $g(x)$ is continous. \spaze 
+\underline{\textbf{Symmetry}}\spaze 
+By definition we have that a symmetric function can be expressed by the equality $g(x) = g(-x)$. Thus to check that this holds we simply calculate $g(x) - g(-x)$. This gives 
+\begin{align*}
+g(x) - g(-x) &= \frac{f(x)}{x f'(x)} - \frac{f(-x)}{-x f'(-x)} \\[5pt]
+&= \frac{\arctan(x)(1 + x^2)}{x} + \frac{\arctan(-x) (1 + (-x)^2)}{x} \\[5pt]
+&= \frac{\arctan(x)(1 + x^2) - \arctan(x)(1+x^2)}{x} \\[5pt]
+&= 0
+\end{align*}
+where we have used that $\arctan(-x) = - \arctan(x)$ since it is an odd function. \spaze 
+\underline{\textbf{Newtons Method}}\spaze 
+To show that Newtons method can be written thaty way we simply write it out as 
+\begin{align*}
+x_{k+1} = x_k( 1 - g(x_k)) = x_k(1 - f(x_k)/x_k(f'(x_k)) = x_k - \frac{f(x_k)}{f'(x_k)}
+\end{align*}
+and we are done. $\Q$ \spaze 
+c.) \emph{Show that there exists a unique point $x^{*} \in (0, \infty)$ such that $g(x^{*}) = 2$ and that}
+\begin{align*}
+g(x) > 2, \quad \forall x \in (x^{*}, \infty).
+\end{align*}
+To show the uniqueness of $x^{*}$ we will proceed by doing a proof by contradiction. \\ Suppose there exists two points $x_1, x_2 \in (0, \infty)$ such that $g(x_1) = g(x_2) = 2$. As defined we know that 
+\begin{align*}
+g(x) = f(x)/ xf'(x) = \frac{\arctan(x)(1+ x^2) }{x}  > x \quad,  x \in (0, \infty)
+\end{align*}
+meaning $g(x)$ is strictly increasing on $(0, \infty)$. Since $g(x)$ is strictly increasing that means 
+\begin{align*}
+g(x_1) < g(x_2) < \cdots < g(x_n), \quad \text{for} \ x_1 < x_2 < \cdots < x_n \in (0, \infty)
+\end{align*}
+but we defined $g(x_1) = g(x_2)$ for two arbitrary values, meaning we arrive at a contradiction and there must then exist a unique point $x^{*}$ such that $g(x^{*}) =2$. Thus, must all points $x_1, x_2, \ldots, x_n \in (x^{*}, \infty)$ yield $g(x_k) > 2,$ for $k \in{N}$. $\Q$ \spaze 
+d.) \emph{Approximate the value of $x^{*}$ numerically to 5 correct decimal digits using an iteration method.} \spaze 
+\textbf{Solution:} \spaze 
+We can approximate $x^{*}$ by the following script 
+\begin{lstlisting}
+import numpy as np
+import scipy.linalg as linalg
+import sys
+import numpy as np
+
+
+def g(x):
+    return ((x**2 + 1) * np.arctan(x)) / (x)
+
+
+def dg(x):
+    return 1 / x + np.arctan(x) - np.arctan(x) / (x**2)
+
+
+x_0 = 1.0
+epsilon = 1
+error = 1e-5
+x_n = 0
+
+while epsilon > error:
+    x_n = x_0 - (g(x_0) - 2) / dg(x_0)
+    epsilon = abs(x_n - x_0)
+    x_0 = x_n
+    
+print(f"x_star: {x_0:.6f}")
+\end{lstlisting}
+where we have implemented Newtons method on $k(x) = g(x) - 2$. This gives ut the following approximated value 
+\begin{verbatim}
+print(f"x_star: {x_0:.6f}")
+x_star: 1.391745
+\end{verbatim} \spaze
+e.) \emph{Use the results in 1 b) and c) to show that the Newton sequence diverges if $x_0$ is far from $\xi$, and describe the largest possible non-empty interval $(a, b)$ that contains $\xi$ and satisfies that} 
+\begin{align*}
+\lim_{k \to \infty} x_{k} = \xi \quad \text{for all Newton sequences with} \quad x_0 \in (a,b) 
+\end{align*}
+\textbf{Solution:} \spaze 
+Let $\varphi (x) = x - \frac{f'(x)}{(f(x)} = x - (x^2 -1)\arctan(x)$, and define the functional iteration $x_{n+1} = \varphi(x_n)$ (as in (a.)). Remember that $\varphi$ is odd, $\varphi(0) = 0$ , and $\varphi'(x) < 0 $  meaning $\varphi(x)$ is strictly decreasing. \vspace{2mm }\\
+Now let $x^{*}$ be a unique positive integer (like in (c)) satisfying $\varphi(x^{*}) = -x^{*}$. (since $\varphi$ is odd) If $ 0 < |x| < |x^{*}| \Rightarrow |\varphi(x) \leq |x|$. Hence if $|x_0| < |x^{*}| \Rightarrow |x_{n+1}| \leq |x_n|, \ \forall n$ and $|x_n| \rightarrow \xi$ since $\varphi$ is strictly decreasing and $\varphi(0) = 0$ which by continuity of $\varphi$ implies that $\varphi(\xi) = \xi$. \vspace{3mm}\\
+If $|x_0| = |x^{*}|$ then $\left\{ x_n \right\} = \bl x_0, -x_0, x_0, \ldots, \br$ which would neither converge nor diverge. \vspace{3mm}\\
+In the last case suppose now that $0 < |x^{*}| < |x|$, which would imply $\varphi(x) \geq |x|$, meaning $x_n$ is now non-decreasing. Nor is $x_n$ is bounded (neither from below or above) which then implies that $|x_n| \rightarrow \infty$. \vspace{3mm}\\
+Hence to conclude must $x_0 \in (-x^{*}, x^{*})$ for $|x_n| \rightarrow \xi$. $\Q$ \spaze 
+e.) \emph{Compute the sequence $(x_k)_{k=0}^{6}$ with Newton’s method}
+\begin{align*}
+x_{k+1} = x_k - \frac{f(x)}{f'(x)}
+\end{align*}
+We compute  $(x_k)_{k=0}^{6}$  by the following script 
+\begin{lstlisting}
+import numpy as np
+import scipy.linalg as linalg
+import sys
+import numpy as np
+import math
+
+def f(x):
+    return np.arctan(x)
+
+
+def f_prime(x):
+    return 1 / (1 + x**2)
+
+
+def newton_method_arctan(x0, tolerance=1e-13, max_iterations=100):
+    x = x0
+    for i in range(max_iterations):
+        fx = f(x)
+        if abs(fx) < tolerance:
+            return x, i
+        x = x - fx / f_prime(x)
+    return None, max_iterations
+
+
+# Initial guess for the root
+x0 = 1.3
+
+# Call Newton's method to find the root
+root, iterations = newton_method_arctan(x0)
+
+if root is not None:
+    print(f"Approximate root: {root}")
+    print(f"Number of iterations: {iterations}")
+else:
+    print("Newton's method did not converge within the specified tolerance.")
+\end{lstlisting}
+which gives the following output .
+\begin{verbatim}
+x_0 = 1.3
+---------
+Approximate root: 1.2045171040057576e-14
+Number of iterations: 6
+
+x_0 = 1.4
+---------
+Newton's method did not converge within the specified tolerance.
+\end{verbatim}
+This aligns well with the theoretical results from a.), c.) and e.) where we can clearly see that $x^{*} \in (1.3, 1.4)$ somewhere.\footnote{To be completely exact, the value $x^{*} \in (-1.391745..., 1.391745...)$}
+
+\section*{\centering Problem 2}
+\emph{Compute the QR factorization of the matrix}
+\begin{align*}
+A = \begin{bmatrix}
+1 & 1 \\[5pt]
+0 & -1 \\[5pt]
+1 & 1 \\[5pt]
+\end{bmatrix}
+\end{align*}
+\emph{and use the factorization to find the least squares solution of the following equation}
+\begin{align*}
+Ax = \underbrace{\begin{bmatrix}
+2 \\
+1 \\
+3
+\end{bmatrix}}_{=b}
+\end{align*}
+\textbf{Solution:} \spaze
+Let $a_1 = (1, 0, 1)^T, a_2 = (1, -1, 1)^T$. By applying Gram-Schmidt it follows that 
+\begin{align*}
+\bm{u}_{1} &= a_1 = (1, 0 , 1) \\[5pt]
+\bm{e}_{1} &= \frac{\bm{u}_{1}}{\norm{\bm{u}_{1}}} = (\sqrt{2}^{-1}, 0, \sqrt{2}^{-1}) \\[5pt]
+\bm{u}_{2} &= a_2 - (a_2 \cdot \bm{e}_{1}) \bm{e}_{1} \\[5pt]
+&= (1,-1, 1) - ((1,-1, 1) \cdot ((\sqrt{2}^{-1}, 0, \sqrt{2}^{-1}) (\sqrt{2}^{-1}, 0, \sqrt{2}^{-1}) \\[5pt]
+&= (1,-1, 1) - \left( \frac{2}{\sqrt{2}^2}, 0, \frac{2}{\sqrt{2}^2} \right) \\[5pt]
+&=  (1,-1, 1) - (1, 0, 1) \\[5pt]
+&= (0, -1, 0) \\[5pt]
+\bm{e}_2 &= \bm{u}_2.
+\end{align*}
+Then by the principles of QR factorization we have that 
+\begin{align*}
+Q &= \begin{bmatrix}
+\bm{e}_1 & \bm{e}_2
+\end{bmatrix} \\[5pt]
+R &= \begin{bmatrix}
+a_1 \bm{e}_1  & a_2 \bm{e}_1  \\[5pt]
+0 & a_2 \bm{e}_2
+\end{bmatrix}.
+\end{align*}
+To solve the least squares problem we remember that $Q$ is an orthonormal matrix which means that $Q^T = Q^{-1}$, so we can thus re-write the problem as 
+\begin{align*}
+Ax = b \iff QRx = b \iff Rx = Q^Tb.
+\end{align*}
+Then insert for $Q, R, b$
+\begin{align*}
+\begin{bmatrix}
+\sqrt{2} & \sqrt{2} \\[5pt]
+0 & 1
+\end{bmatrix} 
+\begin{bmatrix}
+x_1 \\
+x_2
+\end{bmatrix}
+=
+\begin{bmatrix}
+\sqrt{2}/2 & 0 & \sqrt{2}/2  \\[5pt]
+0 & -1 & 0
+\end{bmatrix}
+\begin{bmatrix}
+2 \\
+1 \\
+3
+\end{bmatrix}
+\end{align*}
+and solve the following linear set of equations 
+\begin{align}
+\sqrt{2}x_1 + \sqrt{2}&x_2  = \sqrt{2} + \frac{3}{2} \sqrt{2} \\[5pt]
+ &x_2 = -1
+\end{align}
+which gives that 
+\begin{align*}
+x = \begin{bmatrix}
+3.5 \\
+-1
+\end{bmatrix}.
+\end{align*}
+Can also solve this on the computer by the following script 
+\begin{lstlisting}
+import numpy as np
+import scipy.linalg as linalg
+import sys
+import numpy as np
+
+A = np.array([[1.0, 0, 1], [1, -1, 1]])
+B = np.array([2, 1, 3])
+x = np.linalg.lstsq(A.T, B)
+print(x[0])
+\end{lstlisting}
+which gives the following output .
+\begin{verbatim}
+ x = np.linalg.lstsq(A.T, B)
+[ 3.5 -1.]
+\end{verbatim}
+\section*{\centering Problem 3}
+\emph{Let $PA = LU$ be an $LU$ factorization of $A$, where $P$ is a permutation matrix, $L$ is a unit lower triangular matrix and $U$ is upper triangular. Explain how the matrices $P, L$ and $U $can be used to construct a more efficient method for computing $\text{det}(A)$ and compute the computational cost of your approach. You may use that the cost of the $LU$ factorization of $A$ is $\frac{2n^3}{3} + \mathcal{O}(n^2)$ arithmetic operations, the cost of $\text{det}(P )$ is $\mathcal{O}(n^2)$ arithmetic operations and that $\text{det}(P)  \neq 0$ (it always takes one of the values $\pm 1$).} \spaze 
+\textbf{Solution:} \spaze 
+Given that $A$ has an $LU$ factorisation we can write the determinant of $A$ as 
+\begin{align*}
+\text{det}(A) = \text{det}(P)\text{det}(L) \text{det}(U)  
+\end{align*}
+where $L$ is a unit lower triangular matrix, $U$ is an upper triangular matrix and $P$ is a permutation matrix. The cost of the product $\text{det}(L) \text{det}(U) = u_{1,1} \cdot u_{2,2} \cdots u_{n,n}$ is only $\mathcal{O}(n)$ since it is the product of the main diagonal of $U$, and by 
+\end{document}
