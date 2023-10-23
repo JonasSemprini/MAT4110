@@ -2,7 +2,6 @@ import scipy.io
 import numpy as np
 import matplotlib.pyplot as plt
 
-
 measurementData = scipy.io.loadmat("circle-measurements.mat")
 x = measurementData["x"].reshape(-1)
 y = measurementData["y"].reshape(-1)
