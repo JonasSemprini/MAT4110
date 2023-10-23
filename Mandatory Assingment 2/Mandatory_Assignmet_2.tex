@@ -1,0 +1,227 @@
+\documentclass[12pt,
+               a4paper,
+               article,
+               oneside,
+               norsk,oldfontcommands]{memoir}
+\usepackage{student-kopi}
+% Metadata
+\date{\today}
+\setmodule{MAT4110: Introduction to Numerical Analysis}
+\setterm{Fall, 2023}
+
+%-------------------------------%
+% Other details
+% TODO: Fill these
+%-------------------------------%
+\title{Mandatory assingment: 1}
+\setmembername{Jonas Semprini Næss}  % Fill group member names
+
+%-------------------------------%
+% Add / Delete commands and packages
+% TODO: Add / Delete here as you need
+%-------------------------------%
+\makeatletter
+\newcommand*{\rom}[1]{\expandafter\@slowromancap\romannumeral #1@}
+\makeatother
+%\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[T1]{fontenc}
+\usepackage{titling}% the wheel somebody else kindly made for us earlier
+\usepackage{fancyhdr}
+\usepackage{fancybox}
+\usepackage{epigraph} 
+\usepackage{tikz}
+\usepackage{bm}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.12}
+\usepackage{lmodern}
+\usepackage{enumitem}
+\usepackage{framed}
+\usepackage{calc}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{fancyvrb}
+\usepackage[scaled]{beramono}
+\usepackage[final]{microtype}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{thmtools}
+\usepackage{babel}
+\usepackage{csquotes}
+\usepackage{listings}
+\usetikzlibrary{calc,intersections,through,backgrounds}
+\usepackage{tkz-euclide} 
+\lstset{basicstyle = \ttfamily}
+\usepackage{float}
+\usepackage{textcomp}
+\usepackage{siunitx}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage[colorlinks, allcolors = uiolink]{hyperref}
+\usepackage[noabbrev]{cleveref}
+\pretolerance = 2000
+\tolerance    = 6000
+\hbadness     = 6000
+\newcounter{probnum}[section]
+\newcounter{subprobnum}[probnum] 
+\usepackage{dirtytalk}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage[section]{placeins}
+\usepackage{varwidth}
+\usepackage{optidef}
+\definecolor{uiolink}{HTML}{0B5A9D}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{commath}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newcommand{\Q}{ \qquad \hfill \blacksquare}
+\newcommand\myeq{\stackrel{\mathclap{\normalfont{uif}}}{\sim}}
+\let\oldref\ref
+\renewcommand{\ref}[1]{(\oldref{#1})}
+\newtheorem{lemma}[theorem]{Lemma}
+\setlength \epigraphwidth {\linewidth}
+\setlength \epigraphrule {0pt}
+\AtBeginDocument{\renewcommand {\epigraphflush}{center}}
+\renewcommand {\sourceflush} {center}
+\parindent 0ex
+\renewcommand{\thesection}{\roman{section}} 
+\renewcommand{\thesubsection}{\thesection.\roman{subsection}}
+\newcommand{\KL}{\mathrm{KL}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\T}{\top}
+\newcommand{\bl}{\left\{}
+\newcommand{\br}{\right\}}
+\newcommand{\spaze}{\vspace{4mm}\\}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Rel}{\mathbb{R}}
+\newcommand{\expdist}[2]{%
+        \normalfont{\textsc{Exp}}(#1, #2)%
+    }
+\newcommand{\expparam}{\bm \lambda}
+\newcommand{\Expparam}{\bm \Lambda}
+\newcommand{\natparam}{\bm \eta}
+\newcommand{\Natparam}{\bm H}
+\newcommand{\sufstat}{\bm u}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+% Main document
+\begin{document}
+\header{}
+\section*{\centering Problem 1.}
+a.) \spaze
+\begin{lstlisting}[language=Python, caption=Python example]
+
+import numpy as np
+import pandas as pd
+import random
+
+matrix = np.array(
+    [
+        [5, 1 / np.sqrt(2), -1 / np.sqrt(2)],
+        [1 / np.sqrt(2), 5 / 2, 7 / 2],
+        [-1 / np.sqrt(2), 7 / 2, 5 / 2],
+    ]
+)
+
+result = pd.DataFrame(columns=["Approx Eigenvalue", "Actual Eigenvalue", "Error"])
+
+num_iterations = 10
+actual_eigenvalues, _ = np.linalg.eig(matrix)
+print(actual_eigenvalues)
+actual_largest_eigenvalue = max(actual_eigenvalues)
+
+n = matrix.shape[0]
+b = np.random.rand(n)
+
+for i in range(num_iterations):
+    # Power iteration
+    b = np.dot(matrix, b)
+    # Normalize the vector
+    eigenvalue = np.linalg.norm(b)
+    error = abs(eigenvalue - actual_largest_eigenvalue)
+    b /= eigenvalue
+    result.loc[i] = [eigenvalue, actual_largest_eigenvalue, error]
+
+
+with pd.option_context(
+    "display.max_rows",
+    None,
+    "display.max_columns",
+    None,
+    "display.precision",
+    7,
+):
+    print(result)
+
+
+# def inverse_power_method(A, mu, iter, tol=1e-15):
+#     Ashift = A - mu * np.identity(A.shape[0])
+#     b = np.zeros((len(A), iter + 1))
+#     b[:, 0] = np.random.rand(A.shape[0])
+#     print(b, b[0])
+#     rn = np.ones((iter + 1,))
+#     for k in range(num_iterations):
+#         b[:, k] = b[:, k] / np.linalg.norm(b[:, k])
+#         b[:, k + 1] = np.linalg.solve(Ashift, b[:, k])
+#         rn[k + 1] = np.sum(b[:, k + 1]) / np.sum(b[:, k])
+#         if abs(rn[k + 1] - rn[k]) < tol:
+#             break
+#     if k < iter:
+#         rn[k + 2 :] = rn[k + 1]
+#     return (
+#         1.0 / rn[k + 1] + mu,
+#         1.0 / rn + mu,
+#         b[:, k + 1] / np.linalg.norm(b[:, k + 1]),
+#     )
+
+
+# lamda, v = np.linalg.eig(matrix)
+# order = np.abs(lamda).argsort()
+# lamda = lamda[order]
+# mu = 2
+# lamda_shift, lamda_seq, vpm = inverse_power_method(matrix, mu, iter=num_iterations)
+
+# print(
+#     "The eigenvalue closest to {} from the shifted power method is {} (exact is {}, error is {})".format(
+#         mu, lamda_shift, lamda[1], abs(lamda_shift - lamda[1])
+#     )
+# )
+\end{lstlisting}
+\section*{\centering Problem 2.}
+a.) \spaze
+b.) \spaze 
+c.)\spaze 
+\section*{\centering Problem 3.}
+a.) \spaze
+b.) \spaze 
+c.)\spaze 
+d.) \spaze
+\end{document}
