@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
-# results = pd.DataFrame(columns=["Iterations (n)", "Approx Integral"])
+results = pd.DataFrame(columns=["Iterations (n)", "Approx Integral"])
 
 P_s = 2 ** (10)
 
@@ -23,46 +23,39 @@ integral_results = []
 
 
 # Composite Trapezoidal Rule function
-def composite_trapezoidal_rule(f, x_min, x_max, y_min, y_max, n):
-    x_values = np.linspace(x_min, x_max, n)
-    y_values = np.linspace(y_min, y_max, n)
-    dx = (x_max - x_min) / n
-    dy = (y_max - y_min) / n
-    integral = 0.0
-    for i in range(n):
-        for j in range(n):
-            xi = x_values[i]
-            yi = y_values[j]
-            xi1 = x_values[i + 1] if i < n - 1 else x_max
-            yi1 = y_values[j + 1] if j < n - 1 else y_max
-            integral += (
-                0.25 * dx * dy * (f(xi, yi) + f(xi1, yi) + f(xi, yi1) + f(xi1, yi1))
-            )
-    return integral
+def composite_trapezoidal_rule(f, n):
+    x_values = np.linspace(0, 1, n + 1)
+    y_values = np.linspace(0, 1, n + 1)
+    h = 1 / n
+    X, Y = np.meshgrid(x_values, y_values)
+    z = f(X, Y)
+    sum = np.sum(z[1:, 1:] + z[:-1, 1:] + z[1:, :-1] + z[:-1, :-1])
+    comp_sum = ((h**2) / 4) * sum
+    return comp_sum
 
 
 # Calculate the integral for different values of n
 for s in n:
-    result = composite_trapezoidal_rule(f, x_min, x_max, y_min, y_max, s)
+    result = composite_trapezoidal_rule(f, s)
     integral_results.append(result)
 
-# Print the results
-# for i, s in enumerate(n):
-#     result = integral_results[i]
-#     results.loc[i] = [s, result]
 
-# with pd.option_context(
-#     "display.max_rows",
-#     None,
-#     "display.max_columns",
-#     None,
-#     "display.precision",
-#     7,
-# ):
-#     print(results)
+for i, s in enumerate(n):
+    result = integral_results[i]
+    results.loc[i] = [s, result]
+
+with pd.option_context(
+    "display.max_rows",
+    None,
+    "display.max_columns",
+    None,
+    "display.precision",
+    7,
+):
+    print(results)
 
 
-pseudo = composite_trapezoidal_rule(f, x_min, x_max, y_min, y_max, P_s)
+pseudo = composite_trapezoidal_rule(f, P_s)
 
 
 error = [abs(pseudo - app) for app in integral_results]

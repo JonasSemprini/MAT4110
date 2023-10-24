@@ -61,7 +61,7 @@ print(beta_n)
 # plt.show()
 
 
-A = np.c_[-2 * x, 2 * y, np.ones_like(x)]
+A = np.c_[2 * x, 2 * y, np.ones_like(x)]
 
 r = np.linalg.solve(A.T @ A, A.T @ (-(x**2) - (y**2)))
 
