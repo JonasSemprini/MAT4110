@@ -399,10 +399,35 @@ By rewriting the equation we can implement the linear least squares as
 \end{align*}
 which by the following code (\ref{lst: lls circ}) gives $r \approx 3.690027147759961$, which aligns well with the results of $\beta_3$ from (b.).
 \section*{\centering Problem 3.}
-a.) \emph{Describe $L_{k}(x)$ and $\hat{L}(y)$ and show that $p(x,y)$ in (7) with the functions $L_{k}(x)$ and $\hat{L}(y)$ that you define indeed is a solution of (6).} \spaze
-\textbf{Solution:} \spaze 
+a.) \emph{Describe $L_{k}(x)$ and $\hat{L}_{p}(y)$ and show that $p(x,y)$ in (7) with the functions $L_{k}(x)$ and $\hat{L}_{p}(y)$ that you define indeed is a solution of (6).} \spaze
+ \textbf{Solution:} \spaze 
+ We know by the ridgid definition of the Lagrange Polynomial in one dimension that 
+ \begin{align*}
+ L_{k}(x) =   \prod_{\mathclap{\substack{i = 0\\
+                              i \neq k \\}}}^{n} \frac{x - x_{i}}{x_k - x_i} = \frac{(x - x_0) (x - x_1 )\ldots( x- x_{i-1}) \ldots (x - x_n)}{(x_i - x_0)(x_i - x_1) \ldots (x_i - x_{i-1}) (x_i - x_{i+1}) \ldots (x_i - x_n)}
+ \end{align*}
+ which can also be generalised for $y$, in the same manner, implying that 
+ \begin{align*}
+\hat{L}_{p}(y) =  \prod_{\mathclap{\substack{j= 0\\
+                              j \neq p \\}}}^{n} \frac{x - x_j}{x_p - x_j} =\frac{(y - y_0) (y - y_1 )\ldots( y- y_{j-1}) \ldots (y - y_n)}{(y_j - y_0)(y_j - y_1) \ldots (y_j - y_{j-1}) (y_j - y_{j+1}) \ldots (x_j - y_n)}
+ \end{align*}
+ Now observe for equation (6) that it becomes 
+ \begin{align*}
+ p(x_i,y_j) = \sum_{k=0}^{n}  \sum_{p=0}^{n} f(x_k, y_p) L_{k}(x_i) \hat{L}_{p}(y_j) &= \sum_{k=0}^{n}  \sum_{p=0}^{n} f(x_k, y_p) \delta_{ik} \delta_{jp}, \quad i \neq k \land j\neq p. \\[5pt]
+ &= f(x_i, y_j)
+ \end{align*}
+ which means that it interpolates the data, since each basis polynomial has degree $n$ and hence must the sum (or linear combinations) be of degree $\leq n$. Conclusively must $p(x,y)$ be a solution of $p(x_i. y_j) = f(x_i, y_j), \ \forall \ 0 \leq i,j \leq n$.  $\Q$ \spaze
 b.) \emph{Leaning on the fact that any univariate polynomial $p$ of degree $ \leq n$ that has $n + 1$ or more zeros is equal to the 0 function, meaning $ p \equiv 0$, show that the solution to the 2 dimensional interpolation problem (6) is unique.}\spaze 
 \textbf{Solution:} \spaze
+Suppose that $p$ is not unique and there exists another solution to the interplolation problem $q \in \mathcal{P}_{n,n}$. Now define $r = p - q$, implying that $r \in \mathcal{P}_{n,n}$, meaning we can write it as 
+\begin{align*}
+\sum_{i=0}^{n}\sum_{j=0}^{n} c_{i,j}x^{i}y^{j}, \ c_{i,j} \in \mathbb{R}.
+\end{align*}
+Without loss of generality, we can fix any $ 0 \leq p \leq n$ such that the function $r(x, y_p)$ is now a univariate polyomial in $x$ of degree $\leq n$ and can be written as
+\begin{align*}
+\sum_{i=0}^{n} a_{i}(y_p)x^{i}
+\end{align*} 
+where $  a_{i}(y_p) = \sum_{j=0}^{n} c_{i,j} y_{p}^{j}$.  This polynomial has $n+1$ distinct root, namely $x_i, \ i=0, 1, \ldots, n$. But a polynomial that has $n+1$ distinct roots and is of degree $\leq n$ can only happen to exist as long its $\equiv 0$ , which tells us that the only solution to $r(x, y_p) = 0 $ is if all $a_{i}(y_p) = 0 \iff c_{i,j} =0, \ \forall i,j$ meaning $r(x,y) \equiv 0$, which contradicts our assumption and $p \in \mathcal{P}$ must therefore be unique. $\Q$\spaze
 c.) \emph{Determine $p_{i,j}(x,y)$ and verify that the 2D square-mesh trapezoidal rule is given by}
 \begin{align*}
 T(n) = \frac{h^2}{4}\sum_{i=1}^{n}\sum_{j=1}^{n} \left( f(x_{i-1}, y_{j-1}) + f(x_i, y_{j-1}) +  f(x_{i-1}, y_{j-1}) +  f(x_i, y_{j}) \right)
