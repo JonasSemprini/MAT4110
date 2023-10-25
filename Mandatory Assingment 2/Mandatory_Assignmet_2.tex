@@ -427,12 +427,40 @@ Without loss of generality, we can fix any $ 0 \leq p \leq n$ such that the func
 \begin{align*}
 \sum_{i=0}^{n} a_{i}(y_p)x^{i}
 \end{align*} 
-where $  a_{i}(y_p) = \sum_{j=0}^{n} c_{i,j} y_{p}^{j}$.  This polynomial has $n+1$ distinct root, namely $x_i, \ i=0, 1, \ldots, n$. But a polynomial that has $n+1$ distinct roots and is of degree $\leq n$ can only happen to exist as long its $\equiv 0$ , which tells us that the only solution to $r(x, y_p) = 0 $ is if all $a_{i}(y_p) = 0 \iff c_{i,j} =0, \ \forall i,j$ meaning $r(x,y) \equiv 0$, which contradicts our assumption and $p \in \mathcal{P}$ must therefore be unique. $\Q$\spaze
+where $  a_{i}(y_p) = \sum_{j=0}^{n} c_{i,j} y_{p}^{j}$.  This polynomial has $n+1$ distinct root, namely $x_i, \ i=0, 1, \ldots, n$. But a polynomial that has $n+1$ distinct roots and is of degree $\leq n$ can only happen to exist as long its $\equiv 0$ , which tells us that the only solution to $r(x, y_p) = 0 $ is if all $a_{i}(y_p) = 0 \iff c_{i,j} =0, \ \forall i,j$ meaning $r(x,y) \equiv 0$, which contradicts our assumption and $p \in \mathcal{P}_{n,n}$ must therefore be unique. $\Q$\spaze
 c.) \emph{Determine $p_{i,j}(x,y)$ and verify that the 2D square-mesh trapezoidal rule is given by}
 \begin{align*}
 T(n) = \frac{h^2}{4}\sum_{i=1}^{n}\sum_{j=1}^{n} \left( f(x_{i-1}, y_{j-1}) + f(x_i, y_{j-1}) +  f(x_{i-1}, y_{j-1}) +  f(x_i, y_{j}) \right)
 \end{align*}
 \textbf{Solution:} \spaze
+We recall from (a.) that a general $p(x,y) = \sum_{k = 0}^{n}  \sum_{p = 0}^{n} f(x, y) L_k(x) \hat{L}_{p}(y)$, which if we restrict to only be of degree $\leq 1$ yields \begin{align*}
+p_{i,j}(x,y) = \sum_{k = 0}^{1}  \sum_{p = 0}^{1} f(x_{i -k}, y_{j - p}) L_k(x) \hat{L}_{p}(y)
+\end{align*}
+which written out in full is
+\begin{align*}
+\sum_{k = 0}^{1}  \sum_{p = 0}^{1} f(x_{i -k}, y_{j - p})  L_k(x) \hat{L}_{p}(y) &= \sum_{k = 0}^{1} L_{k}(x) \left[\hat{L}_{0}(y) (f(x_{i-k}, y_{j})+ \hat{L}_{1}(y) (f(x_{i-k}, y_{j-1}) \right] \\[5pt]
+&= L_{0}(x) \left[\hat{L}_{0}(y) (f(x_{i}, y_{j})+ \hat{L}_{1}(y) (f(x_{i}, y_{j-1}) \right] \\[5pt]
+&+ L_{1}(x) \left[\hat{L}_{0}(y) (f(x_{i-1}, y_{j})+ \hat{L}_{1}(y) (f(x_{i}. y_{j}) \right] \\[8pt]
+&=   L_{0}(x) \hat{L}_{0}(y) f(x_{i}, y_{j}) +   L_{0}(x) \hat{L}_{1}(y) f(x_{i}, y_{j-1})\\[5pt]
+&+  L_{1}(x) \hat{L}_{0}(y) f(x_{i-1}, y_{j})+ L_{1}(x)\hat{L}_{1}(y) f(x_{i-1}, y_{j-1}).
+\end{align*}
+With $p_{i,j}(x,y)$ explicitly defined we can then turn to the integral 
+\begin{align*}
+\int_{x_{i-1}}^{x_{i}} \int_{y_{j-1}}^{y_{j}} p_{i,j}(x,y) &= \int_{x_{i-1}}^{x_{i}} L_{0}(x)  \frac{y_{j} - y_{j-1}}{2}\left[f(x_{i}, y_{j}) +  f(x_{i}, y_{j-1}) \right] + \\[5pt] 
+&L_{1}(x) \frac{y_{j} - y_{j-1}}{2} \left[ f(x_{i-1}, y_{j}) + f(x_{i-1}, y_{j-1})\right] \\[10pt]
+&=  \frac{x_{i} - x_{i-1}}{2} \frac{y_{j} - y_{j-1}}{2} \left[ f(x_{i}, y_{j}) +  f(x_{i}, y_{j-1})  + f(x_{i-1}, y_{j}) + f(x_{i-1}, y_{j-1})  \right]
+\end{align*}
+Where we remember that the problem is enclosed wihin a 2D square mesh with $(x_i, y_j) = (ih, jh)$, hence infering that 
+\begin{align*}
+\frac{x_{i} - x_{i-1}}{2} = \frac{y_{j} - y_{j-1}}{2} = \frac{h}{2} \iff \frac{x_{i} - x_{i-1}}{2} \frac{y_{j} - y_{j-1}}{2} = \frac{h^2}{4}.
+\end{align*}
+Which in application of the  trapezoidal rule conclusively yields 
+\begin{align*}
+T(n) &= \sum_{i=1}^{n}\sum_{j=1}^{n} \frac{h^2}{4} \left( f(x_{i-1}, y_{j-1}) + f(x_i, y_{j-1}) +  f(x_{i-1}, y_{j-1}) +  f(x_i, y_{j}) \right) \\[5pt]
+&= \frac{h^2}{4}\sum_{i=1}^{n}\sum_{j=1}^{n} \left( f(x_{i-1}, y_{j-1}) + f(x_i, y_{j-1}) +  f(x_{i-1}, y_{j-1}) +  f(x_i, y_{j}) \right)
+\end{align*}
+and we are done. $\Q$
+\spaze
 d.) \emph{ For $n^s = 2^{1+s}, \ s = 1,2, \ldots, 7$ compute $T(n^s)$ to estimate the integral}
 \begin{align*}
 I = \int_{0}^{1} \int_{0}^{1} \text{exp}(-(x - \sin(y^2))^3) \ dx \ dy
