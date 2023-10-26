@@ -2,6 +2,8 @@ import scipy.io
 import numpy as np
 import matplotlib.pyplot as plt
 
+plt.style.use("Solarize_Light2")
+
 measurementData = scipy.io.loadmat("circle-measurements.mat")
 x = measurementData["x"].reshape(-1)
 y = measurementData["y"].reshape(-1)
@@ -51,20 +53,19 @@ def gauss_newton(beta, max_iter=100, tolerance=1e-6):
 beta_n = gauss_newton(beta)
 print(beta_n)
 
-# s1 = beta_n[0] + beta_n[2] * np.cos(2 * np.pi * phi)
-# s2 = beta_n[1] + beta_n[2] * np.sin(2 * np.pi * phi)
-# plt.scatter(x, y, marker="o", color="green", label="Measure points")
-# plt.plot(s1, s2, color="red")
-# plt.xlim(min(x), max(x))
-# plt.ylim(min(y) - 1, max(y) + 2)
-# plt.legend()
-# plt.show()
+s1 = beta_n[0] + beta_n[2] * np.cos(2 * np.pi * phi)
+s2 = beta_n[1] + beta_n[2] * np.sin(2 * np.pi * phi)
+plt.scatter(x, y, marker="o", color="blue", label="Measure points")
+plt.plot(s1, s2, color="red", label="Circle fit")
+plt.legend()
+plt.savefig("circle_fit.pdf")
+plt.show()
 
 
-A = np.c_[2 * x, 2 * y, np.ones_like(x)]
+# A = np.c_[2 * x, 2 * y, np.ones_like(x)]
 
-r = np.linalg.solve(A.T @ A, A.T @ (-(x**2) - (y**2)))
+# r = np.linalg.solve(A.T @ A, A.T @ (-(x**2) - (y**2)))
 
-r_fit = np.sqrt(r[0] ** 2 + r[1] ** 2 - r[2])
+# r_fit = np.sqrt(r[0] ** 2 + r[1] ** 2 - r[2])
 
-print(r_fit)
+# print(r_fit)

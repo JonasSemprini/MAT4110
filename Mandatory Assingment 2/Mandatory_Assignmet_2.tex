@@ -3,17 +3,17 @@
                article,
                oneside,
                english,oldfontcommands]{memoir}
-\usepackage{student-kopi}
+\usepackage{student}
 % Metadata
 \date{\today}
-\setmodule{MAT4110: Introduction to Numerical Analysis}
+\setmodule{MAT3110/4110: Introduction to Numerical Analysis}
 \setterm{Fall, 2023}
 
 %-------------------------------%
 % Other details
 % TODO: Fill these
 %-------------------------------%
-\title{Mandatory assingment: 1}
+\title{Mandatory assingment: 2}
 \setmembername{Jonas Semprini Næss}  % Fill group member names
 
 %-------------------------------%
@@ -362,7 +362,7 @@ which relative to this sample data gives
 \begin{align*}
 R(\beta)=  \begin{bmatrix}
 f(x_1, y_1; \beta) - b_1 \\[5pt] 
-f(x_2 y_2; \beta) - b_2 \\[5pt]
+f(x_2, y_2; \beta) - b_2 \\[5pt]
 \vdots \\[5pt]
 f(x_{20}, y_{20}; \beta) - b_{20}
 \end{bmatrix}.
@@ -390,14 +390,34 @@ J_{R}(\beta) &= \begin{bmatrix}
 \end{align*}
 b.) \emph{Find a reasonable guess for $\beta^{0}$ and compute the circle $\beta^{*}$ that best describes the measurements in least squares sense using the Gauss-Newton method (3) on a computer. Include one plot of containing the circle $\beta^{*}$ you obtain and the measurement points.} \spaze 
 \textbf{Solution:} \spaze
-Code can be found be found in the Appendix at \ref{lst: ls circ}, and produces the following plot. \spaze
+Code can be found in the Appendix at \ref{lst: ls circ}, and produces the following plot. 
+\begin{figure}[H]
+\centering 
+\includegraphics[width=0.7\textwidth]{circle_fit.pdf}
+\caption{Plot of the circle $\beta^{*}$}
+\end{figure}
+with the correspoding $\beta$ values.
+\begin{table}[H] 
+  \begin{center} 
+    \begin{tabular}{c c} 
+      $\beta$ & Estimate:\\
+      \hline
+     	 $\beta_{1}$ & 1.23942346\\
+     	   $\beta_{2} $ & -2.47892999 \\
+     	      $\beta_{3} $ & 3.69002715\\
+      \hline 
+    \end{tabular}
+     \caption{Values of the approximated integral of $I$}
+       \label{tab:beta-fit}
+  \end{center}
+\end{table}
 c.) \emph{Solve the linear least squares problem with unknowns $(x_c, y_c, w)$ on a computer and use the equation for $w$ to determine the circle`s radius, $r$. How does the solution of this linear least squares problem compare to what you obtained in part b)?}\spaze 
 \textbf{Solution:}\spaze 
 By rewriting the equation we can implement the linear least squares as 
 \begin{align*}
 2xx_c + 2yy_c + -x_{i}^2 - y_{i}^2 = 0
 \end{align*}
-which by the following code (\ref{lst: lls circ}) gives $r \approx 3.690027147759961$, which aligns well with the results of $\beta_3$ from (b.).
+which by the following code (\ref{lst: lls circ}) gives $r \approx 3.690027147759961$, and aligns well with the results of $\beta_3$ from Table (\ref{tab:beta-fit}).
 \section*{\centering Problem 3.}
 a.) \emph{Describe $L_{k}(x)$ and $\hat{L}_{p}(y)$ and show that $p(x,y)$ in (7) with the functions $L_{k}(x)$ and $\hat{L}_{p}(y)$ that you define indeed is a solution of (6).} \spaze
  \textbf{Solution:} \spaze 
@@ -427,7 +447,7 @@ Without loss of generality, we can fix any $ 0 \leq p \leq n$ such that the func
 \begin{align*}
 \sum_{i=0}^{n} a_{i}(y_p)x^{i}
 \end{align*} 
-where $  a_{i}(y_p) = \sum_{j=0}^{n} c_{i,j} y_{p}^{j}$.  This polynomial has $n+1$ distinct root, namely $x_i, \ i=0, 1, \ldots, n$. But a polynomial that has $n+1$ distinct roots and is of degree $\leq n$ can only happen to exist as long its $\equiv 0$ , which tells us that the only solution to $r(x, y_p) = 0 $ is if all $a_{i}(y_p) = 0 \iff c_{i,j} =0, \ \forall i,j$ meaning $r(x,y) \equiv 0$, which contradicts our assumption and $p \in \mathcal{P}_{n,n}$ must therefore be unique. $\Q$\spaze
+where $  a_{i}(y_p) = \sum_{j=0}^{n} c_{i,j} y_{p}^{j}$.  This polynomial has $n+1$ distinct root, namely $x_i, \ i=0, 1, \ldots, n$. But a polynomial that has $n+1$ distinct roots and is of degree $\leq n$ can only happen to exist as long its $\equiv 0$ , which tells us that the only solution to $r(x, y_p) = 0 $ is if all $a_{i}(y_p) = 0 \iff c_{i,j} =0, \ \forall i,j$ meaning $r(x,y) \equiv 0$, which contradicts our assumption and $p \in \mathcal{P}_{n,n}$ must therefore be unique \footnote{I originally had an idea of trying to show that the Vandermonde matrix for the linear map $R: \mathcal{P}_{n, n} \mapsto \mathcal{P}_{n, n}$ where $R(p) = p - q, \ \text{for} \ p, q \in \mathcal{P}_{n,n}$ is non-singular, hence invertible and thus must $\ker(R) = 0 $ (I think..) meaning the only solution has to be $0$, but encountered that to be rather difficult. I would more than glady recieve some direction on that if there is.}$\Q$\spaze
 c.) \emph{Determine $p_{i,j}(x,y)$ and verify that the 2D square-mesh trapezoidal rule is given by}
 \begin{align*}
 T(n) = \frac{h^2}{4}\sum_{i=1}^{n}\sum_{j=1}^{n} \left( f(x_{i-1}, y_{j-1}) + f(x_i, y_{j-1}) +  f(x_{i-1}, y_{j-1}) +  f(x_i, y_{j}) \right)
@@ -461,7 +481,7 @@ T(n) &= \sum_{i=1}^{n}\sum_{j=1}^{n} \frac{h^2}{4} \left( f(x_{i-1}, y_{j-1}) + 
 \end{align*}
 and we are done. $\Q$
 \spaze
-d.) \emph{ For $n^s = 2^{1+s}, \ s = 1,2, \ldots, 7$ compute $T(n^s)$ to estimate the integral}
+d.) \emph{ For $n^s = 2^{1+s}, \ s = 1,2, \ldots, 7$ compute $T(n_s)$ to estimate the integral}
 \begin{align*}
 I = \int_{0}^{1} \int_{0}^{1} \text{exp}(-(x - \sin(y^2))^3) \ dx \ dy
 \end{align*}
@@ -470,6 +490,50 @@ I = \int_{0}^{1} \int_{0}^{1} \text{exp}(-(x - \sin(y^2))^3) \ dx \ dy
 E(n) = cn^{-r} + \mathcal{O}(n^{-(r+1)})
 \end{align*}
 \textbf{Solution:} \spaze
+One can compute $T(n_s)$ through the following script (\ref{lst: num int}). Which gives that 
+\begin{table}[H] 
+  \begin{center} 
+    \label{tab: num_int}
+    \begin{tabular}{c c} 
+      Iterations: $n_s$ & Approximation:\\
+      \hline
+     	  4.0      &  0.9401276\\
+            8.0     &   0.9369460\\
+            16.0      &  0.9362333\\
+            32.0        & 0.9360607\\
+          64.0       & 0.9360179\\
+         128.0        &0.9360072\\
+         256.0        & 0.9360045\\
+         512.0      &  0.9360038\\
+      \hline 
+    \end{tabular}
+     \caption{Values of the approximated integral of $I$}
+  \end{center}
+\end{table}
+When so approximating the error margin $E(s) = \left| \tilde{I} - T(n_s) \right|$ we apply the pseudo-refrence solution $\tilde{I}$ through the following script (\ref{lst: err est}), to analyse $r$. 
+\begin{table}[H] 
+  \begin{center} 
+    \label{tab:con mont prob}
+    \begin{tabular}{c} 
+      $r \approx - \frac{\log(E(n_s) - log(E(n_{s-1})}{\log(n_s)- \log(n_{s-1})}$ \\
+      \hline
+  	2.1297178200861935\\
+2.0371047381023133\\
+2.0105389924909276\\
+2.0066241517597554\\
+2.0176713454124955\\
+2.0705388506214772\\
+2.3219654771450973\\
+      \hline 
+    \end{tabular}
+     \caption{Values of the approximated integral of $I$}
+  \end{center}
+\end{table}
+Which tells us that $r$ lays in the region of $2$. It is though important to realise that when $T(n_s)$ gets sufficiently close to the pseudo-refrence solution, then $E(s)$ will experience round-off errors on a computer since it is dealing with very small numbers that are difficult to represent exactly (i.e 2.3219...). \vspace{2mm}\\
+Conclusively we then have that 
+\begin{align*}
+E(n) \approx cn^{-2} + \mathcal{O}(n^{-3})
+\end{align*}
 \section*{\centering \underline{Appendix}}
 \subsubsection*{\centering Source code}
 \begin{lstlisting}[caption= Power Iteration, label={lst: power}]
@@ -679,7 +743,7 @@ plt.ylim(min(y) - 1, max(y) + 2)
 plt.legend()
  plt.show()
 \end{lstlisting}
-\begin{lstlisting}[caption= Linear Least Squares fit Circle Fitt, label={lst: lls circ}]
+\begin{lstlisting}[caption= Linear Least Squares fit Circle Fit, label={lst: lls circ}]
 import scipy.io
 import numpy as np
 import matplotlib.pyplot as plt
@@ -695,5 +759,74 @@ r = np.linalg.solve(A.T @ A, A.T @ (-(x**2) - (y**2)))
 r_fit = np.sqrt(r[0] ** 2 + r[1] ** 2 - r[2])
 
 print(r_fit)
+\end{lstlisting}
+\begin{lstlisting}[caption= Numerical Integral, label={lst: num int}]
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+results = pd.DataFrame(columns=["Iterations (n)", "Approx Integral"])
+
+P_s = 2 ** (10)
+
+n = [int(2 ** (1 + i)) for i in np.linspace(1, 8, 8)]
+
+
+# Define the function to be integrated
+def f(x, y):
+    return np.exp(-((x - np.sin(y**2)) ** 3))
+
+
+# Define the integration limits
+x_min, x_max = 0, 1
+y_min, y_max = 0, 1
+
+
+integral_results = []
+
+
+# Composite Trapezoidal Rule function
+def composite_trapezoidal_rule(f, n):
+    x_values = np.linspace(0, 1, n + 1)
+    y_values = np.linspace(0, 1, n + 1)
+    h = 1 / n
+    X, Y = np.meshgrid(x_values, y_values)
+    z = f(X, Y)
+    sum = np.sum(z[1:, 1:] + z[:-1, 1:] + z[1:, :-1] + z[:-1, :-1])
+    comp_sum = ((h**2) / 4) * sum
+    return comp_sum
+
+
+# Calculate the integral for different values of n
+for s in n:
+    result = composite_trapezoidal_rule(f, s)
+    integral_results.append(result)
+
+
+for i, s in enumerate(n):
+    result = integral_results[i]
+    results.loc[i] = [s, result]
+
+with pd.option_context(
+    "display.max_rows",
+    None,
+    "display.max_columns",
+    None,
+    "display.precision",
+    7,
+):
+    print(results)
+\end{lstlisting}
+\begin{lstlisting}[caption= Error Estimation, label={lst: err est}]
+pseudo = composite_trapezoidal_rule(f, P_s)
+
+error = [abs(pseudo - app) for app in integral_results]
+
+print(len(error), len(n))
+for i in range(1, len(n)):
+    num = np.log(error[i]) - np.log(error[i - 1])
+    den = np.log(n[i]) - np.log(n[i - 1])
+    r = -(num / den)
+    print(r)
 \end{lstlisting}
 \end{document}
